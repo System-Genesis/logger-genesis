@@ -11,14 +11,14 @@ export default class LoggerGenesis {
 
     private winstonLogger: winston.Logger;
 
-    public initialize(system: string, service: string, uri: string, logQueueName: string, retryOptions?: any) {
+    public async initialize(system: string, service: string, uri: string, logQueueName: string, retryOptions?: any) {
         this.system = system;
         this.service = service;
         this.logQueueName = logQueueName;
 
         this.createWinstonLogger();
 
-        LoggerGenesis.connectToMenashMQ(uri, retryOptions);
+        await LoggerGenesis.connectToMenashMQ(uri, retryOptions);
     }
 
     private createWinstonLogger() {
