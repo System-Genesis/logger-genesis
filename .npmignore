@@ -1,0 +1,6 @@
+# Transpiled files
+src/
+
+prettierrc.js
+eslintrc.js
+tsconfig.json
