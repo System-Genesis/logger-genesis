@@ -1,6 +1,6 @@
 {
   "name": "logger-genesis",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Logger package for genesis developers",
   "main": "dist/index.js",
   "scripts": {
@@ -15,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/System-Genesis/logs.git"
+    "url": "git+https://github.com/System-Genesis/logger-genesis.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/System-Genesis/logs/issues"
+    "url": "https://github.com/System-Genesis/logger-genesis/issues"
   },
-  "homepage": "https://github.com/System-Genesis/logs#readme",
+  "homepage": "https://github.com/System-Genesis/logger-genesis#readme",
   "dependencies": {
     "menashmq": "^0.1.6",
     "winston": "^3.3.3"

@@ -11,14 +11,16 @@ export default class LoggerGenesis {
 
     private winstonLogger: winston.Logger;
 
-    public async initialize(system: string, service: string, uri: string, logQueueName: string, retryOptions?: any) {
+    public async initialize(system: string, service: string, uri: string, logQueueName: string, createRabbitConnection: boolean, retryOptions?: any) {
         this.system = system;
         this.service = service;
         this.logQueueName = logQueueName;
 
         this.createWinstonLogger();
 
-        await LoggerGenesis.connectToMenashMQ(uri, retryOptions);
+        if (createRabbitConnection) await LoggerGenesis.connectToRabbitMQ(uri, retryOptions);
+
+        await this.declareQueue();
     }
 
     private createWinstonLogger() {
@@ -38,7 +40,11 @@ export default class LoggerGenesis {
         });
     }
 
-    private static async connectToMenashMQ(uri: string, retryOptions: any = {}) {
+    private async declareQueue() {
+        await menash.declareQueue(this.logQueueName);
+    }
+
+    private static async connectToRabbitMQ(uri: string, retryOptions: any = {}) {
         await menash.connect(uri, retryOptions);
     }
 
