@@ -10,3 +10,4 @@ export declare type logObject = {
     '@timeStamp': number;
     extraFields?: any;
 };
+//# sourceMappingURL=types.d.ts.map

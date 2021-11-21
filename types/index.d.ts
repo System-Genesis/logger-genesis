@@ -3,3 +3,4 @@ declare const logger: Logger;
 export * from './logger';
 export * from './types';
 export default logger;
+//# sourceMappingURL=index.d.ts.map

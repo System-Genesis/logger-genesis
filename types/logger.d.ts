@@ -23,3 +23,4 @@ export default class LoggerGenesis {
 
     logError(local: boolean, title: string, scope: scopeOption, message: string, extraFields?: any): void;
 }
+// # sourceMappingURL=logger.d.ts.map
