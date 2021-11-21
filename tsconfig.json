@@ -21,6 +21,7 @@
     "lib": ["ES2020.Promise"],
     "declaration": true,
     "declarationDir": "./types",
+    "declarationMap": true,
   },
   "include": ["src/**/*"]
 }

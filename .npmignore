@@ -1,3 +1,6 @@
-prettierrc.js
-eslintrc.js
-tsconfig.json
+.prettierrc.js
+.eslintrc.js
+.tsconfig.json
+.prettierignore
+Dockerfile
+tslint.json
