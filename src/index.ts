@@ -1,8 +1,5 @@
-import Logger from './logger';
+import LoggerGenesis from './logger';
 
-const logger: Logger = new Logger();
-
-export * from './logger';
-export * from './types';
+const logger: LoggerGenesis = new LoggerGenesis();
 
 export default logger;

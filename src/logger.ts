@@ -11,16 +11,23 @@ export default class LoggerGenesis {
 
     private winstonLogger: winston.Logger;
 
-    public async initialize(system: string, service: string, uri: string, logQueueName: string, createRabbitConnection: boolean, retryOptions?: any) {
+    public async initialize(
+        system: string,
+        service: string,
+        uri: string,
+        logQueueName: string,
+        createMenashRabbitMQConnection: boolean,
+        retryOptions?: any,
+    ) {
         this.system = system;
         this.service = service;
         this.logQueueName = logQueueName;
 
         this.createWinstonLogger();
 
-        if (createRabbitConnection) await LoggerGenesis.connectToRabbitMQ(uri, retryOptions);
+        if (createMenashRabbitMQConnection) await LoggerGenesis.connectToRabbitMQ(uri, retryOptions);
 
-        await this.declareQueue();
+        if (menash.isReady) await this.declareQueue();
     }
 
     private createWinstonLogger() {
