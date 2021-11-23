@@ -1,6 +1,6 @@
 {
   "name": "logger-genesis",
-  "version": "2.0.2",
+  "version": "2.1.1",
   "description": "Logger package for genesis developers",
   "main": "dist/index.js",
   "scripts": {
@@ -17,7 +17,11 @@
     "type": "git",
     "url": "git+https://github.com/System-Genesis/logger-genesis.git"
   },
-  "keywords": [],
+  "keywords": [
+    "RabbitMQ",
+    "TypeScript",
+    "Logs"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
