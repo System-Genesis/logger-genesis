@@ -14,23 +14,24 @@ export default class LoggerGenesis {
     public async initialize(
         system: string,
         service: string,
-        uri: string,
         logQueueName: string,
         createMenashRabbitMQConnection: boolean,
+        uri?: string,
         retryOptions?: any,
-    ) {
+    ): Promise<void> {
         this.system = system;
         this.service = service;
         this.logQueueName = logQueueName;
 
         this.createWinstonLogger();
 
-        if (createMenashRabbitMQConnection) await LoggerGenesis.connectToRabbitMQ(uri, retryOptions);
+        if (createMenashRabbitMQConnection) await LoggerGenesis.connectToRabbitMQ(uri!, retryOptions);
 
         if (menash.isReady) await this.declareQueue();
+        else throw new Error(`Can't find rabbitMQ to connect`);
     }
 
-    private createWinstonLogger() {
+    private createWinstonLogger(): void {
         const { config, format } = winston;
         this.winstonLogger = winston.createLogger({
             levels: config.npm.levels,
@@ -47,15 +48,15 @@ export default class LoggerGenesis {
         });
     }
 
-    private async declareQueue() {
+    private async declareQueue(): Promise<void> {
         await menash.declareQueue(this.logQueueName);
     }
 
-    private static async connectToRabbitMQ(uri: string, retryOptions: any = {}) {
+    private static async connectToRabbitMQ(uri: string, retryOptions: any = {}): Promise<void> {
         await menash.connect(uri, retryOptions);
     }
 
-    private sendLogToQueue(level: levelOptions, title: string, scope: scopeOption, message: string, extraFields: any) {
+    private sendLogToQueue(level: levelOptions, title: string, scope: scopeOption, message: string, extraFields: any): void {
         const logToSend: logObject = {
             level,
             title,
@@ -70,18 +71,18 @@ export default class LoggerGenesis {
         menash.send(this.logQueueName, logToSend);
     }
 
-    public logInfo(local: boolean, title: string, scope: scopeOption, message: string, extraFields?: any) {
-        if (!local) this.sendLogToQueue('info', title, scope, message, extraFields);
+    public info(sendToQueue: boolean, scope: scopeOption, title: string, message: string, extraFields?: any): void {
+        if (sendToQueue) this.sendLogToQueue('info', title, scope, message, extraFields);
         this.winstonLogger.info(`${title} => ${message}`);
     }
 
-    public logWarn(local: boolean, title: string, scope: scopeOption, message: string, extraFields?: any) {
-        if (!local) this.sendLogToQueue('warn', title, scope, message, extraFields);
+    public warn(sendToQueue: boolean, scope: scopeOption, title: string, message: string, extraFields?: any): void {
+        if (sendToQueue) this.sendLogToQueue('warn', title, scope, message, extraFields);
         this.winstonLogger.warn(`${title} => ${message}`);
     }
 
-    public logError(local: boolean, title: string, scope: scopeOption, message: string, extraFields?: any) {
-        if (!local) this.sendLogToQueue('error', title, scope, message, extraFields);
+    public error(sendToQueue: boolean, scope: scopeOption, title: string, message: string, extraFields?: any): void {
+        if (sendToQueue) this.sendLogToQueue('error', title, scope, message, extraFields);
         this.winstonLogger.error(`${title} => ${message}`);
     }
 }

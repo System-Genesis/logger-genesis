@@ -1,4 +1,4 @@
-Easy ways to use logs and send them to rabbitmq in your service for TypeScript
+Easy ways to use logs and send them to RabbitMQ using menashmq in your service for TypeScript
 
 # Examples
 
@@ -8,7 +8,13 @@ Easy ways to use logs and send them to rabbitmq in your service for TypeScript
 
     import logger from 'logger-genesis';
 
-    logger.initialize('systemA', 'serviceA', 'amqp://localhost', false, 'log-queue');
+    logger.initialize('systemA', 'serviceA', 'log-queue', false);
+
+**app.ts**
+
+    import logger from 'logger-genesis';
+
+    logger.initialize('systemA', 'serviceA', 'log-queue', true, 'amqp://localhost');
 
 ## Usage
 
@@ -16,23 +22,23 @@ Easy ways to use logs and send them to rabbitmq in your service for TypeScript
 
     import logger from 'logger-genesis';
 
-    logger.logError(false, 'Unknown error', 'APP', err.message);
+    logger.error(false, 'APP', 'Unknown error', err.message);
 
 **controller.ts**
 
     import logger from 'logger-genesis';
 
-    logger.logWarn(false, 'Invalid identityCard', 'APP', `Got invalid identityCard ${identityCard}`, {id: identityCard, userID});
+    logger.warn(false, 'APP', 'Invalid identityCard', `Got invalid identityCard ${identityCard}`, {id: identityCard, userID});
 
 ## Methods
 
 -   initialize()
 
--   logInfo()
+-   info()
 
--   logWarn()
+-   warn()
 
--   logError()
+-   error()
 
 ## Params
 
@@ -42,19 +48,21 @@ Easy ways to use logs and send them to rabbitmq in your service for TypeScript
 
 -   service -> Name of the service
 
--   uri -> Connection URI of rabbitMQ
+-   logQueueName -> Name of the Log's Queue
 
 -   createRabbitConnection -> True if need to create connection to rabbitMQ with menash
 
--   retryOptions -> retryOption to connect to RabbitMQ (details in menashmq readme)
+-   uri -> Connection URI of rabbitMQ (Needed only if createRabbitConnection is true)
+
+-   retryOptions -> retryOption to connect to RabbitMQ (details in menashmq readme, needed only if createRabbitConnection is true)
 
 **logInfo/logWarn/logError**
 
 -   local -> True if only local log, otherwise send to queue
 
--   title -> Title of the log
-
 -   scope -> The scope of the log - APP / SYSTEM
+
+-   title -> Title of the log
 
 -   message -> The message of the log
 
