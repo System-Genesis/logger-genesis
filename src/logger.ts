@@ -49,11 +49,11 @@ export default class LoggerGenesis {
     }
 
     private async declareQueue(): Promise<void> {
-        await menash.declareQueue(this.logQueueName);
+        await menash.declareQueue(this.logQueueName, { durable: true });
     }
 
     private static async connectToRabbitMQ(uri: string, retryOptions: any = {}): Promise<void> {
-        await menash.connect(uri, retryOptions);
+        await menash.connect(uri, retryOptions, { persistent: true });
     }
 
     private sendLogToQueue(level: levelOptions, title: string, scope: scopeOption, message: string, extraFields: any): void {
