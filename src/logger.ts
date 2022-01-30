@@ -53,7 +53,7 @@ export default class LoggerGenesis {
     }
 
     private static async connectToRabbitMQ(uri: string, retryOptions: any = {}): Promise<void> {
-        await menash.connect(uri, retryOptions, { persistent: true });
+        await menash.connect(uri, retryOptions);
     }
 
     private sendLogToQueue(level: levelOptions, title: string, scope: scopeOption, message: string, extraFields: any): void {
@@ -68,7 +68,7 @@ export default class LoggerGenesis {
             ...extraFields,
         };
 
-        menash.send(this.logQueueName, logToSend);
+        menash.send(this.logQueueName, logToSend, { persistent: true });
     }
 
     public info(sendToQueue: boolean, scope: scopeOption, title: string, message: string, extraFields?: any): void {
