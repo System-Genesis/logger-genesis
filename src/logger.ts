@@ -11,6 +11,8 @@ export default class LoggerGenesis {
 
     private winstonLogger: winston.Logger;
 
+    private connected: boolean = false;
+
     public async initialize(
         system: string,
         service: string,
@@ -29,6 +31,8 @@ export default class LoggerGenesis {
 
         if (menash.isReady) await this.declareQueue();
         else throw new Error(`Can't find rabbitMQ to connect`);
+
+        this.connected = true;
     }
 
     private createWinstonLogger(): void {
@@ -84,5 +88,9 @@ export default class LoggerGenesis {
     public error(sendToQueue: boolean, scope: scopeOption, title: string, message: string, extraFields?: any): void {
         if (sendToQueue) this.sendLogToQueue('error', title, scope, message, extraFields);
         this.winstonLogger.error(`${title} => ${message}`);
+    }
+
+    public isConnected(): boolean {
+        return this.connected;
     }
 }
